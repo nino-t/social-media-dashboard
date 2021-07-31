@@ -1,5 +1,7 @@
 module.exports = {
-  purge: [],
+  purge: [
+    './client/**/*.tsx'
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},

@@ -1,6 +1,7 @@
-const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 
 module.exports = {
   name: 'client',
@@ -36,5 +37,11 @@ module.exports = {
     ]
   },
   target: 'web',
-  plugins: [new CleanWebpackPlugin(), new WebpackManifestPlugin()],
-};
+  plugins: [
+    new CleanWebpackPlugin(),
+    new WebpackManifestPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
+    })
+  ]
+}

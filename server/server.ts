@@ -12,7 +12,7 @@ server.use('/', express.static(path.join(__dirname, 'static')))
 const manifest = fs.readFileSync(path.join(__dirname, 'static/manifest.json'), 'utf-8')
 const assets = JSON.parse(manifest)
 
-server.get('/', (req, res) => {
+server.get('*', (req, res) => {
   res.render('client', { assets })
 })
 

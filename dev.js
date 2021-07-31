@@ -12,7 +12,7 @@ const compiler = webpack([
     output: {
       ...webpackConfigClient.output,
       filename: '[name].js',
-    },
+    }
   },
   {
     ...webpackConfigServer,
