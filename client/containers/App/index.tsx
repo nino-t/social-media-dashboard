@@ -1,26 +1,27 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { Helmet } from 'react-helmet'
+import styled from 'styled-components'
+import { Switch, Route } from 'react-router-dom'
 
-import { fetchUsers } from '../../store/actionCreators/users'
+import DashboardPage from '../DashboardPage'
+import AboutPage from '../AboutPage'
+
+const AppWrapper = styled.div`
+  margin: 0 auto;
+`
 
 const App = (): JSX.Element => {
-  const dispatch = useDispatch()
-  const { users } = useSelector((state: AppState) => state)
-
-  useEffect(() => {
-    dispatch(fetchUsers())
-  }, [dispatch])
-
   return (
     <>
-      <p className="text-lg">Welcome to Social Media Dashboard</p>
-      <ul>
-        {users.data.map(
-          (user: User, index: number): JSX.Element => (
-            <li key={index}>{user.name}</li>
-          )
-        )}
-      </ul>
+      <AppWrapper>
+        <Helmet titleTemplate="%s | SM Dashboard" defaultTitle="Dashboard">
+          <meta name="description" content="Social Media Dashboard" />
+        </Helmet>
+        <Switch>
+          <Route exact path="/" component={DashboardPage} />
+          <Route exact path="/about" component={AboutPage} />
+        </Switch>
+      </AppWrapper>
     </>
   )
 }
