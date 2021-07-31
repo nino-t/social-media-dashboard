@@ -1,0 +1,9 @@
+*.css
+*.svg
+dev.js
+webpack.config.client.js
+webpack.config.server.js
+postcss.config.js
+tailwind.config.js
+server/
+dist/

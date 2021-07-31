@@ -1,0 +1,10 @@
+{
+  "editor.tabSize": 2,
+  "eslint.workingDirectories": ["../client", "../server"],
+  "eslint.alwaysShowStatus": true,
+  "css.lint.unknownAtRules": "ignore",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
