@@ -1,6 +1,6 @@
-const nodeExternals = require('webpack-node-externals');
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
+const nodeExternals = require('webpack-node-externals')
+const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   name: 'server',
@@ -36,4 +36,4 @@ module.exports = {
       patterns: [{ context: 'server', from: 'views', to: 'views' }],
     }),
   ],
-};
+}
