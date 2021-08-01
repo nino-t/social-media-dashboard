@@ -29,6 +29,20 @@ const posts = (state: PostsState = initialState, action: PostsAction): PostsStat
         draft.meta.errorMessage = action.error || 'Unexpected Error!!!'
         draft.data = []
         break
+
+      case actionTypes.CREATE_NEW_POST:
+        if (action.data) {
+          draft.meta.isLoading = false
+          draft.meta.errorMessage = ''
+          draft.data.unshift(action.data[0])
+        }
+        break
+
+      case actionTypes.REINIT_DATA_POSTS:
+        draft.meta.isLoading = false
+        draft.meta.errorMessage = ''
+        draft.data = action.data || []
+        break
     }
   })
 }

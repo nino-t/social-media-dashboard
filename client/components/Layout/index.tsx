@@ -31,7 +31,7 @@ const Layout = (props: ILayoutProps): JSX.Element => {
       <MainLayout>
         <HeaderLayout />
         <Content>
-          <div className="container px-6 pb-6 mx-auto grid">
+          <div className="container px-6 pb-6 mx-auto">
             <h2 className="AppLayout__content__title my-6 text-2xl font-semibold text-gray-700">{title}</h2>
             {children}
           </div>

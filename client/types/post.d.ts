@@ -1,6 +1,6 @@
 interface Post {
+  id?: number
   userId: number
-  id: number
-  title: number
-  body: number
+  title: string
+  body: string
 }
