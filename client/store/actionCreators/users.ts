@@ -1,4 +1,5 @@
 import _get from 'lodash/get'
+import _find from 'lodash/find'
 import actionTypes from '../actionTypes'
 import { loadCache, saveCache } from '../../utils/cache'
 import { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
@@ -29,5 +30,32 @@ export const fetchUsers =
             type: actionTypes.FETCH_POSTS_ERROR,
             error: _get(error, 'response.statusText', 'Unexpected Error!!!')
           })
+      )
+  }
+
+export const fetchUser =
+  (id: number, callback: any) =>
+  (dispatch: never, getState: never, api: AxiosInstance): Promise<Post | null> => {
+    const cache = loadCache(CACHE_KEY)
+    if (cache) {
+      const userExist = _find(cache, (user) => {
+        return user.id === id
+      })
+
+      if (userExist) {
+        return callback(userExist)
+      }
+    }
+
+    return api
+      .get(`/users/${id}`)
+      .then((response: AxiosResponse) => _get(response, 'data', null))
+      .then(
+        (data: User) => {
+          return callback(data)
+        },
+        () => {
+          return callback(null)
+        }
       )
   }

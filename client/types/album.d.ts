@@ -1,7 +1,7 @@
-interface Post {
+interface Album {
   id?: number
   userId: number
   title: string
-  body: string
   user?: User
+  photos?: Photo[]
 }

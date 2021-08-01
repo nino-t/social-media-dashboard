@@ -9,3 +9,9 @@ type PostsAction = {
   data?: Post[]
   error?: string
 }
+
+type AlbumsAction = {
+  type: string
+  data?: Post[]
+  error?: string
+}

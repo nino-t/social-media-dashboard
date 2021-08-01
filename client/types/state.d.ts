@@ -1,6 +1,7 @@
 type AppState = {
   readonly users: UsersState
   readonly posts: PostsState
+  readonly albums: AlbumsState
   readonly notifications: any
 }
 
@@ -18,4 +19,12 @@ type PostsState = {
     errorMessage: string
   }
   data: Post[]
+}
+
+type AlbumsState = {
+  meta: {
+    isLoading: boolean
+    errorMessage: string
+  }
+  data: Album[]
 }

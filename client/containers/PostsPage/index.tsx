@@ -36,6 +36,7 @@ const PostsPage = (): JSX.Element => {
       <Layout title={title}>
         <ButtonLink url="/posts/new" label="Add New" />
         <Table
+          isLoading={posts.meta.isLoading}
           columns={[
             {
               key: 'id',

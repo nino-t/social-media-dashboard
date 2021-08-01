@@ -80,7 +80,7 @@ const FormPostPage = (): JSX.Element => {
         <title>{pageTitle}</title>
       </Helmet>
       <Layout title={pageTitle}>
-        <Panel title="Basic Info">
+        <Panel>
           <form onSubmit={handleSubmitForm}>
             <InputText
               id="title"

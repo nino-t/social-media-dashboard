@@ -1,24 +1,22 @@
 import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
+import { push } from 'connected-react-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 /* --- UI COMPONENTS --- */
 import Table from '../../components/Table'
 import Layout from '../../components/Layout'
-import CounterCard from '../../components/CounterCard'
 
 /* --- REDUX ACTIONS --- */
 import { fetchUsers } from '../../store/actionCreators/users'
-import { fetchPosts } from '../../store/actionCreators/posts'
 
-const DashboardPage = (): JSX.Element => {
-  const title = 'Dashboard'
+const UsersPage = (): JSX.Element => {
+  const title = 'User List'
   const dispatch = useDispatch()
-  const { users, posts } = useSelector((state: AppState) => state)
+  const { users } = useSelector((state: AppState) => state)
 
   useEffect(() => {
     dispatch(fetchUsers())
-    dispatch(fetchPosts())
   }, [dispatch])
 
   return (
@@ -27,14 +25,13 @@ const DashboardPage = (): JSX.Element => {
         <title>{title}</title>
       </Helmet>
       <Layout title={title}>
-        <div className="grid gap-6 mb-8 md:grid-cols-2">
-          <CounterCard title="Total users" total={users.data.length} icon="users" />
-          <CounterCard title="Total posts" total={posts.data.length} icon="posts" />
-        </div>
-
         <Table
           isLoading={users.meta.isLoading}
           columns={[
+            {
+              key: 'id',
+              label: '#ID'
+            },
             {
               key: 'name',
               label: 'Name'
@@ -53,10 +50,22 @@ const DashboardPage = (): JSX.Element => {
             }
           ]}
           records={users.data}
+          actions={[
+            {
+              type: 'text-blue-500',
+              label: 'Posts',
+              onClick: (obj: any) => dispatch(push(`/users/${obj.id}/posts`))
+            },
+            {
+              type: 'text-green-500',
+              label: 'Albums',
+              onClick: (obj: any) => dispatch(push(`/users/${obj.id}/albums`))
+            }
+          ]}
         />
       </Layout>
     </>
   )
 }
 
-export default DashboardPage
+export default UsersPage

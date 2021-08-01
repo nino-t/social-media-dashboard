@@ -1,6 +1,8 @@
 interface ITablePropsColumn {
   key: string
   label: string
+  value?: string
+  type?: string
 }
 
 interface ITablePropsAction {
@@ -10,6 +12,7 @@ interface ITablePropsAction {
 }
 
 type TableProps = {
+  isLoading?: boolean
   columns: ITablePropsColumn[]
   records?: Record<string, any>[]
   actions?: ITablePropsAction[]

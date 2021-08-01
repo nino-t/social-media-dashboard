@@ -6,16 +6,20 @@ const Wrapper = styled.div.attrs(() => ({
 }))``
 
 type PanelProps = {
-  title: string
+  title?: string
   children: JSX.Element | JSX.Element[]
 }
 
 const Panel = (props: PanelProps): JSX.Element => {
-  const { title, children } = props
+  const { title = '', children } = props
 
   return (
     <Wrapper>
-      <div className="Panel__heading"></div>
+      {title && (
+        <div className="Panel__heading">
+          <h3 className="block mb-2 font-bold">{title}</h3>
+        </div>
+      )}
       <div className="Panel__body px-6 py-5 mb-8 bg-white rounded-lg shadow-md">{children}</div>
     </Wrapper>
   )

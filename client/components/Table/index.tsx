@@ -7,13 +7,21 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div.attrs(() => ({
   className: 'Table w-full overflow-hidden rounded-lg shadow-xs'
-}))``
+}))`
+  table {
+    tbody {
+      a {
+        color: #7c3aed;
+      }
+    }
+  }
+`
 
 const DEFAULT_PAGE_SIZE = 10
 const DEFAULT_ORDER_BY = 'id'
 
 const Table = (props: TableProps): JSX.Element => {
-  const { columns, records = [], actions = [] } = props
+  const { columns, records = [], actions = [], isLoading = false } = props
   const results = _orderBy(records, DEFAULT_ORDER_BY[0], 'desc')
   const resultInPages = _chunk(results, DEFAULT_PAGE_SIZE)
 
@@ -47,6 +55,34 @@ const Table = (props: TableProps): JSX.Element => {
     )
   }
 
+  const renderTdElement = (result: Record<string, any>, column: ITablePropsColumn): string | JSX.Element => {
+    const { type = 'text', value } = column
+
+    if (value) {
+      return value
+    }
+
+    if (type === 'link') {
+      const link = _get(result, column.key, '-')
+      return (
+        <a href={link} target="_blank" rel="noreferrer">
+          {link}
+        </a>
+      )
+    }
+
+    if (type === 'img') {
+      const src = _get(result, column.key, '')
+      return (
+        <a href={src} target="_blank" rel="noreferrer">
+          <img src={src} alt={src} width="100" />
+        </a>
+      )
+    }
+
+    return _get(result, column.key, '-')
+  }
+
   return (
     <Wrapper>
       <div className="Table__wrapper w-full overflow-x-auto">
@@ -62,36 +98,52 @@ const Table = (props: TableProps): JSX.Element => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y">
-            {resultInPages[pageIndex] && (
+            {isLoading ? (
+              <tr>
+                <td colSpan={20} className="px-8 py-6 text-center">
+                  Loading...
+                </td>
+              </tr>
+            ) : (
               <>
-                {resultInPages[pageIndex].map(
-                  (result: Record<string, any>, index: number): JSX.Element => (
-                    <tr key={index} className="text-gray-700">
-                      {columns.map(
-                        (column: ITablePropsColumn, columnIndex: number): JSX.Element => (
-                          <td key={columnIndex} className="px-4 py-3">
-                            {_get(result, column.key, '-')}
-                          </td>
-                        )
-                      )}
+                {resultInPages[pageIndex] ? (
+                  <>
+                    {resultInPages[pageIndex].map(
+                      (result: Record<string, any>, index: number): JSX.Element => (
+                        <tr key={index} className="text-gray-700">
+                          {columns.map(
+                            (column: ITablePropsColumn, columnIndex: number): JSX.Element => (
+                              <td key={columnIndex} className="px-4 py-3">
+                                {renderTdElement(result, column)}
+                              </td>
+                            )
+                          )}
 
-                      {actions.length > 0 && (
-                        <>
-                          {actions.map((action: ITablePropsAction, actionIndex: number) => (
-                            <td key={actionIndex}>
-                              <button
-                                type="button"
-                                className={`text-base ${action.type}`}
-                                onClick={() => action.onClick(result)}
-                              >
-                                {action.label}
-                              </button>
-                            </td>
-                          ))}
-                        </>
-                      )}
-                    </tr>
-                  )
+                          {actions.length > 0 && (
+                            <>
+                              {actions.map((action: ITablePropsAction, actionIndex: number) => (
+                                <td key={actionIndex}>
+                                  <button
+                                    type="button"
+                                    className={`text-base ${action.type}`}
+                                    onClick={() => action.onClick(result)}
+                                  >
+                                    {action.label}
+                                  </button>
+                                </td>
+                              ))}
+                            </>
+                          )}
+                        </tr>
+                      )
+                    )}
+                  </>
+                ) : (
+                  <tr>
+                    <td colSpan={20} className="px-8 py-6 text-center">
+                      No data to Display
+                    </td>
+                  </tr>
                 )}
               </>
             )}
