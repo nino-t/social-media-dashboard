@@ -10,8 +10,8 @@
     "start": "node ./dist/server.js",
     "dev": "NODE_ENV=development node dev.js",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-    "test": "jest",
-    "watch:test": "jest --watch"
+    "test": "jest --detectOpenHandles",
+    "watch:test": "jest --detectOpenHandles --watch"
   },
   "author": "Trisno Nino <ninotrisno34@gmail.com>",
   "license": "ISC",

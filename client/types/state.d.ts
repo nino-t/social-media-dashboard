@@ -1,5 +1,6 @@
 type AppState = {
   readonly users: UsersState
+  readonly posts: PostsState
 }
 
 type UsersState = {
@@ -8,4 +9,12 @@ type UsersState = {
     errorMessage: string
   }
   data: User[]
+}
+
+type PostsState = {
+  meta: {
+    isLoading: boolean
+    errorMessage: string
+  }
+  data: Post[]
 }

@@ -2,16 +2,16 @@ import _get from 'lodash/get'
 import actionTypes from '../actionTypes'
 import { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 
-export const fetchUsers =
+export const fetchPosts =
   () =>
-  (dispatch: UsersDispatch, getState: never, api: AxiosInstance): void => {
-    dispatch({ type: actionTypes.FETCH_USERS_REQUEST })
+  (dispatch: PostsDispatch, getState: never, api: AxiosInstance): void => {
+    dispatch({ type: actionTypes.FETCH_POSTS_REQUEST })
     api
-      .get('/users')
+      .get('/posts')
       .then((response: AxiosResponse) => _get(response, 'data', []))
       .then(
-        (data: User[]) => {
-          dispatch({ type: actionTypes.FETCH_USERS_SUCCESS, data })
+        (data: Post[]) => {
+          dispatch({ type: actionTypes.FETCH_POSTS_SUCCESS, data })
         },
         (error: AxiosError) =>
           dispatch({
