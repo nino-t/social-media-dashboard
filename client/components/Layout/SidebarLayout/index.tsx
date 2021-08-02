@@ -1,5 +1,7 @@
 import React from 'react'
+import _get from 'lodash/get'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 
 /* --- UI COMPONENTS --- */
 import MenuItem from './MenuItem'
@@ -55,6 +57,10 @@ const Pattern = styled.div.attrs(() => ({
 }))``
 
 const SidebarLayout = (): JSX.Element => {
+  const { router = {} } = useSelector((state: any) => state)
+  const pathname = _get(router, 'location.pathname', '/')
+  const firstPathname = pathname.split('/')[1]
+
   const menuItems = [
     {
       url: '/dashboard',
@@ -84,15 +90,17 @@ const SidebarLayout = (): JSX.Element => {
         <Pattern />
 
         <ul className="mt-6">
-          {menuItems.map((item, index: number) => (
-            <MenuItem
-              key={index}
-              url={item.url}
-              label={item.label}
-              icon={item.icon}
-              isActive={index === 0 ? true : false}
-            />
-          ))}
+          {menuItems.map((item, index: number) => {
+            let isActive = false
+            const menuURL = item.url
+            const menuFirstPathname = menuURL.split('/')[1]
+
+            if (menuFirstPathname === firstPathname || (firstPathname === '' && index === 0)) {
+              isActive = true
+            }
+
+            return <MenuItem key={index} url={item.url} label={item.label} icon={item.icon} isActive={isActive} />
+          })}
         </ul>
       </div>
 
