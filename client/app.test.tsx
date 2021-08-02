@@ -3,7 +3,7 @@
  */
 
 import React from 'react'
-import { mount } from 'enzyme'
+import { mount, ReactWrapper } from 'enzyme'
 import { Provider } from 'react-redux'
 import { ConnectedRouter, push } from 'connected-react-router'
 
@@ -11,7 +11,7 @@ import history from './utils/history'
 import AppContainer from './containers/App'
 import configureStore from './store/configureStore'
 
-const setup = (): any => {
+const setup = (): ReactWrapper => {
   const initialState = {} as AppState
   const store = configureStore(initialState, history)
 
@@ -30,7 +30,7 @@ test('full renders without error', () => {
 })
 
 describe('redux connection', () => {
-  let wrapper: any
+  let wrapper: ReactWrapper
 
   beforeEach(() => {
     wrapper = setup()

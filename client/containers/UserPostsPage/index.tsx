@@ -23,20 +23,19 @@ const UserPostsPage = (): JSX.Element => {
   const { posts } = useSelector((state: AppState) => state)
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    const loadUserDetail = (paramsId: number): void => {
+      dispatch(
+        fetchUser(paramsId, (xuser: User | null) => {
+          if (xuser) {
+            setUser(xuser)
+          }
+        })
+      )
+    }
+
     loadUserDetail(parseInt(id))
     dispatch(fetchPosts())
   }, [dispatch, id])
-
-  const loadUserDetail = (paramsId: number): void => {
-    dispatch(
-      fetchUser(paramsId, (xuser: User | null) => {
-        if (xuser) {
-          setUser(xuser)
-        }
-      })
-    )
-  }
 
   const userPosts = _filter(posts.data, (post: Post) => {
     return post.userId === parseInt(id)
@@ -123,7 +122,7 @@ const UserPostsPage = (): JSX.Element => {
             {
               type: 'text-blue-500',
               label: 'Detail',
-              onClick: (obj: any) => dispatch(push(`/users/${id}/posts/${obj.id}/detail`))
+              onClick: (obj: Post) => dispatch(push(`/users/${id}/posts/${obj.id}/detail`))
             }
           ]}
         />

@@ -10,7 +10,7 @@ const Wrapper = styled.button.attrs(() => ({
 type ButtonProps = {
   type?: 'button' | 'submit'
   label: string
-  onClick?: any
+  onClick?: () => void
 }
 
 const Button = (props: ButtonProps): JSX.Element => {

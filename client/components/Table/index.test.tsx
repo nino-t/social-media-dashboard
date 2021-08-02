@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { shallow, ShallowWrapper } from 'enzyme'
 
 import Table from './index'
 
@@ -10,7 +10,7 @@ const defaultProps = {}
  * @param {object} props - Component props specific to this setup.
  * @returns {ShallowWrapper}
  */
-const setup = (props: TableProps): any => {
+const setup = (props: TableProps): ShallowWrapper => {
   const setupProps = { ...defaultProps, ...props }
   return shallow(<Table {...setupProps} />)
 }

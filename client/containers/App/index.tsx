@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 import { Switch, Route } from 'react-router-dom'
 
+/* --- UI COMPONENTS --- */
 import PostsPage from '../PostsPage'
 import UsersPage from '../UsersPage'
 import Notification from './Notification'
