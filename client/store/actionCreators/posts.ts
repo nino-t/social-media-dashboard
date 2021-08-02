@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import _get from 'lodash/get'
 import _find from 'lodash/find'
 import { notify } from 'reapop'
@@ -8,38 +9,41 @@ import { push } from 'connected-react-router'
 import { loadCache, saveCache } from '../../utils/cache'
 import { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 
-const CACHE_KEY = 'WEB/POSTS'
+export const CACHE_KEY = 'WEB/POSTS'
 
 export const fetchPosts =
   () =>
-  (dispatch: PostsDispatch, getState: never, api: AxiosInstance): void => {
+  (dispatch: PostsDispatch, getState: never, api: AxiosInstance): Promise<any[] | Post[]> => {
     dispatch({ type: actionTypes.FETCH_POSTS_REQUEST })
 
     const cache = loadCache(CACHE_KEY)
     if (cache) {
       dispatch({ type: actionTypes.FETCH_POSTS_SUCCESS, data: cache })
-      return
+      return cache
     }
 
-    api
+    return api
       .get('/posts')
       .then((response: AxiosResponse) => _get(response, 'data', []))
       .then(
         (data: Post[]) => {
           saveCache(CACHE_KEY, data)
           dispatch({ type: actionTypes.FETCH_POSTS_SUCCESS, data })
+          return data
         },
-        (error: AxiosError) =>
+        (error: AxiosError) => {
           dispatch({
             type: actionTypes.FETCH_POSTS_ERROR,
             error: _get(error, 'response.statusText', 'Unexpected Error!!!')
           })
+          return []
+        }
       )
   }
 
 export const fetchPost =
-  (id: number, callback: any) =>
-  (dispatch: never, getState: never, api: AxiosInstance): Promise<Post | null> => {
+  (id: number, callback: (results: null | Post) => void) =>
+  (dispatch: never, getState: never, api: AxiosInstance): void => {
     const cache = loadCache(CACHE_KEY)
     if (cache) {
       const postExist = _find(cache, (post) => {
@@ -47,27 +51,28 @@ export const fetchPost =
       })
 
       if (postExist) {
-        return callback(postExist)
+        callback(postExist)
+        return
       }
     }
 
-    return api
+    api
       .get(`/posts/${id}`)
       .then((response: AxiosResponse) => _get(response, 'data', null))
       .then(
         (data: Post) => {
-          return callback(data)
+          callback(data)
         },
         () => {
-          return callback(null)
+          callback(null)
         }
       )
   }
 
 export const createPost =
   (payload: Post) =>
-  (dispatch: PostsDispatch, getState: () => AppState, api: AxiosInstance): void => {
-    api
+  (dispatch: PostsDispatch, getState: () => AppState, api: AxiosInstance): Promise<boolean> => {
+    return api
       .post('/posts', {
         ...payload
       })
@@ -85,6 +90,7 @@ export const createPost =
         () => {
           dispatch(push('/posts'))
           dispatch(notify('New Post Succesfully Added', 'success'))
+          return true
         },
         (error: AxiosError) => {
           const errorMessage = _get(
@@ -93,15 +99,16 @@ export const createPost =
             'Unexpected Error!!!'
           )
           dispatch(notify(errorMessage, 'error'))
+          return false
         }
       )
   }
 
 export const updatePost =
   (payload: Post, id: number) =>
-  (dispatch: PostsDispatch, getState: () => AppState, api: AxiosInstance): void => {
+  (dispatch: PostsDispatch, getState: () => AppState, api: AxiosInstance): Promise<boolean> => {
     payload.id = id
-    api
+    return api
       .patch(`/posts/${id}`, {
         ...payload
       })
@@ -130,6 +137,7 @@ export const updatePost =
         () => {
           dispatch(push('/posts'))
           dispatch(notify('Post Succesfully Updated', 'success'))
+          return true
         },
         (error: AxiosError) => {
           const errorMessage = _get(
@@ -138,14 +146,15 @@ export const updatePost =
             'Unexpected Error!!!'
           )
           dispatch(notify(errorMessage, 'error'))
+          return false
         }
       )
   }
 
 export const deletePost =
   (id: number) =>
-  (dispatch: PostsDispatch, getState: never, api: AxiosInstance): void => {
-    api
+  (dispatch: PostsDispatch, getState: never, api: AxiosInstance): Promise<boolean> => {
+    return api
       .delete(`/posts/${id}`)
       .then((response: AxiosResponse) => _get(response, 'data', null))
       .then(() => {
@@ -165,6 +174,7 @@ export const deletePost =
         () => {
           dispatch(push('/posts'))
           dispatch(notify('Post Succesfully Deleted', 'success'))
+          return true
         },
         (error: AxiosError) => {
           const errorMessage = _get(
@@ -173,6 +183,7 @@ export const deletePost =
             'Unexpected Error!!!'
           )
           dispatch(notify(errorMessage, 'error'))
+          return false
         }
       )
   }

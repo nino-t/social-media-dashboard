@@ -68,7 +68,7 @@ export const createComment =
   (payload: Comment) =>
   (dispatch: CommentsDispatch, getState: () => AppState, api: AxiosInstance): void => {
     api
-      .post('/dada/comments', {
+      .post('/comments', {
         ...payload
       })
       .then((response: AxiosResponse) => _get(response, 'data', null))
