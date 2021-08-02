@@ -87,7 +87,7 @@ export const createPost =
           dispatch(notify('New Post Succesfully Added', 'success'))
         },
         (error: AxiosError) => {
-          const errorMessage = _get(error, 'response.statusText', 'Unexpected Error!!!')
+          const errorMessage = _get(error.toJSON ? error.toJSON() : { message: error.toString() }, 'message', 'Unexpected Error!!!')
           dispatch(notify(errorMessage, 'error'))
         }
       )
@@ -128,7 +128,7 @@ export const updatePost =
           dispatch(notify('Post Succesfully Updated', 'success'))
         },
         (error: AxiosError) => {
-          const errorMessage = _get(error, 'response.statusText', 'Unexpected Error!!!')
+          const errorMessage = _get(error.toJSON ? error.toJSON() : { message: error.toString() }, 'message', 'Unexpected Error!!!')
           dispatch(notify(errorMessage, 'error'))
         }
       )
@@ -159,7 +159,7 @@ export const deletePost =
           dispatch(notify('Post Succesfully Deleted', 'success'))
         },
         (error: AxiosError) => {
-          const errorMessage = _get(error, 'response.statusText', 'Unexpected Error!!!')
+          const errorMessage = _get(error.toJSON ? error.toJSON() : { message: error.toString() }, 'message', 'Unexpected Error!!!')
           dispatch(notify(errorMessage, 'error'))
         }
       )

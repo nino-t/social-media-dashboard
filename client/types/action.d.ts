@@ -15,3 +15,9 @@ type AlbumsAction = {
   data?: Post[]
   error?: string
 }
+
+type CommentsAction = {
+  type: string
+  data?: Comment[]
+  error?: string
+}

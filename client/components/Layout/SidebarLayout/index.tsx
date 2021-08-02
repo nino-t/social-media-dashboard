@@ -70,6 +70,11 @@ const SidebarLayout = (): JSX.Element => {
       url: '/posts',
       label: 'Posts',
       icon: 'posts'
+    },
+    {
+      url: '/comments',
+      label: 'Comments',
+      icon: 'comments'
     }
   ]
 

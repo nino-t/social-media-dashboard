@@ -5,6 +5,7 @@ import { connectRouter } from 'connected-react-router'
 import users from './users'
 import posts from './posts'
 import albums from './albums'
+import comments from './comments'
 import history from '../../utils/history'
 
 const createReducer = (): Reducer => {
@@ -13,7 +14,8 @@ const createReducer = (): Reducer => {
     notifications: notificationsReducer(),
     users,
     posts,
-    albums
+    albums,
+    comments
   })
 
   return rootReducer

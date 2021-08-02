@@ -9,23 +9,23 @@ import Layout from '../../components/Layout'
 import ButtonLink from '../../components/ButtonLink'
 
 /* --- REDUX ACTIONS --- */
-import { fetchPosts, deletePost } from '../../store/actionCreators/posts'
+import { fetchComments, deleteComment } from '../../store/actionCreators/comments'
 
 const PostsPage = (): JSX.Element => {
-  const title = 'Post List'
+  const title = 'Comment List'
   const dispatch = useDispatch()
-  const { posts } = useSelector((state: AppState) => state)
+  const { comments } = useSelector((state: AppState) => state)
 
   useEffect(() => {
-    dispatch(fetchPosts())
+    dispatch(fetchComments())
   }, [dispatch])
 
   const handleEdit = (id: number): void => {
-    dispatch(push(`/posts/${id}/edit`))
+    dispatch(push(`/comments/${id}/edit`))
   }
 
   const handleDelete = (id: number): void => {
-    dispatch(deletePost(id))
+    dispatch(deleteComment(id))
   }
 
   return (
@@ -34,20 +34,24 @@ const PostsPage = (): JSX.Element => {
         <title>{title}</title>
       </Helmet>
       <Layout title={title}>
-        <ButtonLink url="/posts/new" label="New Post" />
+        <ButtonLink url="/comments/new" label="New Comment" />
         <Table
-          isLoading={posts.meta.isLoading}
+          isLoading={comments.meta.isLoading}
           columns={[
             {
               key: 'id',
               label: '#ID'
             },
             {
-              key: 'title',
-              label: 'Title'
+              key: 'name',
+              label: 'Name'
+            },
+            {
+              key: 'body',
+              label: 'Body'
             }
           ]}
-          records={posts.data}
+          records={comments.data}
           actions={[
             {
               type: 'text-blue-500',
