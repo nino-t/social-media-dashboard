@@ -31,26 +31,24 @@ const FormCommentPage = (): JSX.Element => {
   const [body, setBody] = useState<string>('')
 
   useEffect(() => {
-    dispatch(fetchPosts())
+    const loadCommentDetail = (paramsId: number): void => {
+      dispatch(
+        fetchComment(paramsId, (comment: Comment | null) => {
+          if (comment) {
+            setBody(comment.body)
+            setName(comment.name)
+            setEmail(comment.email)
+            setPostId(comment.postId)
+          }
+        })
+      )
+    }
 
+    dispatch(fetchPosts())
     if (id) {
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       loadCommentDetail(parseInt(id))
     }
   }, [dispatch, id])
-
-  const loadCommentDetail = (paramsId: number): void => {
-    dispatch(
-      fetchComment(paramsId, (comment: Comment | null) => {
-        if (comment) {
-          setBody(comment.body)
-          setName(comment.name)
-          setEmail(comment.email)
-          setPostId(comment.postId)
-        }
-      })
-    )
-  }
 
   const handleSubmitForm = (e: any): void => {
     e.preventDefault()

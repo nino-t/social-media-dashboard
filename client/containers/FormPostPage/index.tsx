@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 /* --- UI COMPONENTS --- */
-import Layout from '../../components/Layout'
 import Panel from '../../components/Panel'
+import Layout from '../../components/Layout'
 import Button from '../../components/Button'
 import InputText from '../../components/InputText'
 import InputTextarea from '../../components/InputTextarea'
@@ -30,25 +31,23 @@ const FormPostPage = (): JSX.Element => {
   const [body, setBody] = useState<string>('')
 
   useEffect(() => {
-    dispatch(fetchUsers())
+    const loadPostDetail = (paramsId: number): void => {
+      dispatch(
+        fetchPost(paramsId, (post: Post | null) => {
+          if (post) {
+            setTitle(post.title)
+            setBody(post.body)
+            setUserId(`${post.userId}`)
+          }
+        })
+      )
+    }
 
+    dispatch(fetchUsers())
     if (id) {
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       loadPostDetail(parseInt(id))
     }
   }, [dispatch, id])
-
-  const loadPostDetail = (paramsId: number): void => {
-    dispatch(
-      fetchPost(paramsId, (post: Post | null) => {
-        if (post) {
-          setTitle(post.title)
-          setBody(post.body)
-          setUserId(`${post.userId}`)
-        }
-      })
-    )
-  }
 
   const handleSubmitForm = (e: any): void => {
     e.preventDefault()

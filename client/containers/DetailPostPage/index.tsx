@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useEffect, useState } from 'react'
 import _get from 'lodash/get'
 import _filter from 'lodash/filter'
@@ -25,31 +24,30 @@ const DetailPostPage = (): JSX.Element => {
   const { comments } = useSelector((state: AppState) => state)
 
   useEffect(() => {
+    const loadUserDetail = (paramsId: number): void => {
+      dispatch(
+        fetchUser(paramsId, (xuser: User | null) => {
+          if (xuser) {
+            setUser(xuser)
+          }
+        })
+      )
+    }
+
+    const loadPostDetail = (paramsId: number): void => {
+      dispatch(
+        fetchPost(paramsId, (xpost: Post | null) => {
+          if (xpost) {
+            setPost(xpost)
+          }
+        })
+      )
+    }
+
     loadUserDetail(parseInt(id))
     loadPostDetail(parseInt(postId))
-
     dispatch(fetchComments())
   }, [dispatch, id, postId])
-
-  const loadUserDetail = (paramsId: number): void => {
-    dispatch(
-      fetchUser(paramsId, (xuser: User | null) => {
-        if (xuser) {
-          setUser(xuser)
-        }
-      })
-    )
-  }
-
-  const loadPostDetail = (paramsId: number): void => {
-    dispatch(
-      fetchPost(paramsId, (xpost: Post | null) => {
-        if (xpost) {
-          setPost(xpost)
-        }
-      })
-    )
-  }
 
   const userComments = _filter(comments.data, (comment: Comment) => {
     return comment.postId === parseInt(postId)

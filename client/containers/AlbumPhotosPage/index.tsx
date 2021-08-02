@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useEffect, useState } from 'react'
 import _get from 'lodash/get'
 import { Helmet } from 'react-helmet'
-import { push } from 'connected-react-router'
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
@@ -27,46 +25,45 @@ const AlbumPhotosPage = (): JSX.Element => {
   const [photoIsLoading, setPhotoIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
+    const loadUserDetail = (paramsId: number): void => {
+      dispatch(
+        fetchUser(paramsId, (xuser: User | null) => {
+          if (xuser) {
+            setUser(xuser)
+          }
+        })
+      )
+    }
+
+    const loadAlbumDetail = (paramsId: number): void => {
+      dispatch(
+        fetchAlbum(paramsId, (xalbum: Album | null) => {
+          if (xalbum) {
+            setAlbum(xalbum)
+          }
+        })
+      )
+    }
+
+    const loadAlbumPhotos = (paramsId: number): void => {
+      setPhotoIsLoading(true)
+
+      dispatch(
+        fetchAlbumPhotos(paramsId, (xphotos: Photo[] | null) => {
+          if (xphotos) {
+            setPhotos(xphotos)
+          }
+
+          setPhotoIsLoading(false)
+        })
+      )
+    }
+
     loadUserDetail(parseInt(id))
     loadAlbumDetail(parseInt(id))
     loadAlbumPhotos(parseInt(albumId))
-
     dispatch(fetchPosts())
-  }, [dispatch, id])
-
-  const loadUserDetail = (paramsId: number): void => {
-    dispatch(
-      fetchUser(paramsId, (xuser: User | null) => {
-        if (xuser) {
-          setUser(xuser)
-        }
-      })
-    )
-  }
-
-  const loadAlbumDetail = (paramsId: number): void => {
-    dispatch(
-      fetchAlbum(paramsId, (xalbum: Album | null) => {
-        if (xalbum) {
-          setAlbum(xalbum)
-        }
-      })
-    )
-  }
-
-  const loadAlbumPhotos = (paramsId: number): void => {
-    setPhotoIsLoading(true)
-
-    dispatch(
-      fetchAlbumPhotos(paramsId, (xphotos: Photo[] | null) => {
-        if (xphotos) {
-          setPhotos(xphotos)
-        }
-
-        setPhotoIsLoading(false)
-      })
-    )
-  }
+  }, [dispatch, id, albumId])
 
   return (
     <>

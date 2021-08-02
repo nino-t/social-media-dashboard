@@ -54,12 +54,12 @@ const UsersPage = (): JSX.Element => {
             {
               type: 'text-blue-500',
               label: 'Posts',
-              onClick: (obj: any) => dispatch(push(`/users/${obj.id}/posts`))
+              onClick: (obj: Post) => dispatch(push(`/users/${obj.id}/posts`))
             },
             {
               type: 'text-green-500',
               label: 'Albums',
-              onClick: (obj: any) => dispatch(push(`/users/${obj.id}/albums`))
+              onClick: (obj: Album) => dispatch(push(`/users/${obj.id}/albums`))
             }
           ]}
         />

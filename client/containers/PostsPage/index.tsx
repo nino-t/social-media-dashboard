@@ -52,12 +52,12 @@ const PostsPage = (): JSX.Element => {
             {
               type: 'text-blue-500',
               label: 'Edit',
-              onClick: (obj: any) => handleEdit(obj.id)
+              onClick: (obj: Post) => obj.id && handleEdit(obj.id)
             },
             {
               type: 'text-red-500',
               label: 'Delete',
-              onClick: (obj: any) => handleDelete(obj.id)
+              onClick: (obj: Post) => obj.id && handleDelete(obj.id)
             }
           ]}
         />

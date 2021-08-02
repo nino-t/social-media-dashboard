@@ -23,20 +23,19 @@ const UserAlbumsPage = (): JSX.Element => {
   const { albums } = useSelector((state: AppState) => state)
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    const loadUserDetail = (paramsId: number): void => {
+      dispatch(
+        fetchUser(paramsId, (xuser: User | null) => {
+          if (xuser) {
+            setUser(xuser)
+          }
+        })
+      )
+    }
+
     loadUserDetail(parseInt(id))
     dispatch(fetchAlbums())
   }, [dispatch, id])
-
-  const loadUserDetail = (paramsId: number): void => {
-    dispatch(
-      fetchUser(paramsId, (xuser: User | null) => {
-        if (xuser) {
-          setUser(xuser)
-        }
-      })
-    )
-  }
 
   const userAlbums = _filter(albums.data, (album: Album) => {
     return album.userId === parseInt(id)
@@ -118,7 +117,7 @@ const UserAlbumsPage = (): JSX.Element => {
             {
               type: 'text-blue-500',
               label: 'Photos',
-              onClick: (obj: any) => dispatch(push(`/users/${id}/albums/${obj.id}/photos`))
+              onClick: (obj: Album) => dispatch(push(`/users/${id}/albums/${obj.id}/photos`))
             }
           ]}
         />
