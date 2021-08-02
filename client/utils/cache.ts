@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const loadCache = (key: string): any => {
   try {
     const serializedState = localStorage.getItem(key)
@@ -11,7 +12,7 @@ export const loadCache = (key: string): any => {
   }
 }
 
-export const saveCache = (key: string, state: unknown): any => {
+export const saveCache = (key: string, state: unknown): boolean | undefined => {
   try {
     const serializedState = JSON.stringify(state)
     localStorage.setItem(key, serializedState)
