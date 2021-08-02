@@ -4,6 +4,7 @@ import _get from 'lodash/get'
 import _chunk from 'lodash/chunk'
 import _orderBy from 'lodash/orderBy'
 import styled from 'styled-components'
+import _isNumber from 'lodash/isNumber'
 
 const Wrapper = styled.div.attrs(() => ({
   className: 'Table w-full overflow-hidden rounded-lg shadow-xs'
@@ -29,13 +30,35 @@ const Table = (props: TableProps): JSX.Element => {
   const totalPage = resultInPages.length
   const pageIndex = page <= 1 ? 0 : page - 1
 
-  const renderPageRange = (): number[] => {
-    const pageinstring = []
-    for (let index = 1; index <= totalPage; index++) {
-      pageinstring.push(index)
+  const renderPageRange = (): any[] => {
+    const current = page
+    const last = totalPage,
+      delta = 2,
+      left = current - delta,
+      right = current + delta + 1,
+      range = [],
+      rangeWithDots = []
+    let l
+
+    for (let i = 1; i <= last; i++) {
+      if (i == 1 || i == last || (i >= left && i < right)) {
+        range.push(i)
+      }
     }
 
-    return pageinstring
+    for (const i of range) {
+      if (l) {
+        if (i - l === 2) {
+          rangeWithDots.push(l + 1)
+        } else if (i - l !== 1) {
+          rangeWithDots.push('...')
+        }
+      }
+      rangeWithDots.push(i)
+      l = i
+    }
+
+    return rangeWithDots
   }
 
   const renderShowingInfo = (): JSX.Element => {
@@ -46,7 +69,11 @@ const Table = (props: TableProps): JSX.Element => {
       showingStart = page * DEFAULT_PAGE_SIZE - DEFAULT_PAGE_SIZE + 1
     }
 
-    showingEnd = page * DEFAULT_PAGE_SIZE
+    if (showingEnd > results.length) {
+      showingEnd = showingEnd - results.length
+    } else {
+      showingEnd = page * DEFAULT_PAGE_SIZE
+    }
 
     return (
       <span className="flex items-center col-span-3">
@@ -174,10 +201,15 @@ const Table = (props: TableProps): JSX.Element => {
                 </li>
               )}
               {renderPageRange().map(
-                (xpage: number, xindex: number): JSX.Element => (
+                (xpage: number | string, xindex: number): JSX.Element => (
                   <li key={xindex}>
                     <button
-                      onClick={() => setPage(xpage)}
+                      disabled={_isNumber(xpage) ? false : true}
+                      onClick={() => {
+                        if (_isNumber(xpage)) {
+                          setPage(xpage)
+                        }
+                      }}
                       className={`${
                         xpage === page
                           ? 'px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple'

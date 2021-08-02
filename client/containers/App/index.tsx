@@ -11,6 +11,7 @@ import FormPostPage from '../FormPostPage'
 import DashboardPage from '../DashboardPage'
 import UserPostsPage from '../UserPostsPage'
 import UserAlbumsPage from '../UserAlbumsPage'
+import DetailPostPage from '../DetailPostPage'
 import AlbumPhotosPage from '../AlbumPhotosPage'
 import FormCommentPage from '../FormCommentPage'
 
@@ -38,6 +39,7 @@ const App = (): JSX.Element => {
           {/* USERS */}
           <Route exact path="/users" component={UsersPage} />
           <Route exact path="/users/:id/posts" component={UserPostsPage} />
+          <Route exact path="/users/:id/posts/:postId/detail" component={DetailPostPage} />
           <Route exact path="/users/:id/albums" component={UserAlbumsPage} />
           <Route exact path="/users/:id/albums/:albumId/photos" component={AlbumPhotosPage} />
 
