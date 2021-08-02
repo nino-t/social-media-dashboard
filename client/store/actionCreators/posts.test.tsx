@@ -87,6 +87,19 @@ describe('function createPost', () => {
     const isSuccess = await store.dispatch(posts.createPost(payload))
     expect(isSuccess).toBe(true)
   })
+
+  test('success create post will redirect to /posts', async () => {
+    const payload: Post = {
+      userId: 1,
+      title: 'Hello World',
+      body: 'Dummy text is loream ipsum...'
+    }
+
+    const isSuccess = await store.dispatch(posts.createPost(payload))
+    const pathname = window.location.pathname
+
+    expect(isSuccess && pathname === '/posts').toBe(true)
+  })
 })
 
 describe('function updatePost', () => {
@@ -95,6 +108,7 @@ describe('function updatePost', () => {
 
   test('update post is success', async () => {
     const payload: Post = {
+      id: 1,
       userId: 1,
       title: 'Hello World',
       body: 'Dummy text is loream ipsum...'
@@ -102,6 +116,20 @@ describe('function updatePost', () => {
 
     const isSuccess = await store.dispatch(posts.updatePost(payload, payload.id || 0))
     expect(isSuccess).toBe(true)
+  })
+
+  test('success update post will redirect to /posts', async () => {
+    const payload: Post = {
+      id: 1,
+      userId: 1,
+      title: 'Hello World',
+      body: 'Dummy text is loream ipsum...'
+    }
+
+    const isSuccess = await store.dispatch(posts.updatePost(payload, payload.id || 0))
+    const pathname = window.location.pathname
+
+    expect(isSuccess && pathname === '/posts').toBe(true)
   })
 })
 
@@ -112,5 +140,11 @@ describe('function deletePost', () => {
   test('delete post is success', async () => {
     const isSuccess = await store.dispatch(posts.deletePost(1))
     expect(isSuccess).toBe(true)
+  })
+
+  test('success update post will redirect to /posts', async () => {
+    const isSuccess = await store.dispatch(posts.deletePost(1))
+    const pathname = window.location.pathname
+    expect(isSuccess && pathname === '/posts').toBe(true)
   })
 })
