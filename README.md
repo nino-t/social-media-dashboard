@@ -40,9 +40,9 @@ Go to project folder :
 
 Type following command :  
 
-> docker build —tag social-media-dashboard:1.0 . (Build app with Dockerfile)
+> docker build —tag social_media_dashboard:1.0 . (Build app with Dockerfile)
 >
-> docker container create --name app-dashboard -p 3000:3000 social-media-dashboard:1.0 (Create docker container after build image)
+> docker container create --name app-dashboard -p 3000:3000 social_media_dashboard:1.0 (Create docker container after build image)
 >
 > docker container start app-dashboard (Start docker container)
 >
