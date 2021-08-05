@@ -1,27 +1,44 @@
 import React from 'react'
+import styled from 'styled-components'
 
 /* --- UI COMPONENTS --- */
-import Header from './Header'
-import Footer from './Footer'
+import SidebarLayout from './SidebarLayout'
+import HeaderLayout from './HeaderLayout'
 
-/* --- UI ELEMENTS --- */
-import LayoutElement from './Elements/Layout'
-import ContentElement from './Elements/Content'
+const Wrapper = styled.div.attrs(() => ({
+  className: 'AppLayout flex h-screen bg-gray-50 dark:bg-gray-900'
+}))``
 
-type ILayoutComponentProps = {
+const MainLayout = styled.div.attrs(() => ({
+  className: 'AppLayout__main flex flex-col flex-1 w-full'
+}))``
+
+const Content = styled.main.attrs(() => ({
+  className: 'AppLayout__content h-full overflow-y-auto'
+}))``
+
+type ILayoutProps = {
+  title: string
   children: JSX.Element | JSX.Element[]
 }
 
-const LayoutComponent = (props: ILayoutComponentProps): JSX.Element => {
-  const { children } = props
+const Layout = (props: ILayoutProps): JSX.Element => {
+  const { title, children } = props
 
   return (
-    <LayoutElement>
-      <Header />
-      <ContentElement>{children}</ContentElement>
-      <Footer />
-    </LayoutElement>
+    <Wrapper>
+      <SidebarLayout />
+      <MainLayout>
+        <HeaderLayout />
+        <Content>
+          <div className="container px-6 pb-6 mx-auto">
+            <h2 className="AppLayout__content__title my-6 text-2xl font-semibold text-gray-700">{title}</h2>
+            {children}
+          </div>
+        </Content>
+      </MainLayout>
+    </Wrapper>
   )
 }
 
-export default LayoutComponent
+export default Layout

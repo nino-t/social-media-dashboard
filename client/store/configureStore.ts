@@ -6,12 +6,6 @@ import { createStore, applyMiddleware, compose, Store } from 'redux'
 
 import createReducer from './reducers'
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
-  }
-}
-
 const axiosInstance = axios.create({
   baseURL: 'https://jsonplaceholder.typicode.com'
 })
