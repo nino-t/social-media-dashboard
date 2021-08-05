@@ -1,4 +1,4 @@
-# social-media-dashboard
+# elaw-web-v2
 
 
 
@@ -16,46 +16,35 @@
 - Tailwind (CSS Framework)
 - Axios (Http Request)
 - React-router-dom (Routing in React)
-- https://jsonplaceholder.typicode.com (JSON dummy data)
-
-### Todo
-- [x] ~~User can view list of users~~
-- [x] ~~User can view list of posts of each user~~  
-- [x] ~~User can view list of albums of each user~~  
-- [x] ~~User can view the detail of each post and its comment~~  
-- [x] ~~User can view list of photos from an album~~  
-- [x] ~~User can view the detail of photo~~
-- [x] ~~User can add, edit and delete post~~
-- [x] ~~User can add, edit and delete comment~~
 
 ### Install with docker
 
 (https://www.docker.com/get-started)
 
 Open Terminal, then type command:  
-> git clone https://github.com/nino-t/social-media-dashboard.git
+> git clone https://github.com/nino-t/elaw-web-v2.git
 
 Go to project folder :
-> cd social-media-dashboard
+> cd elaw-web-v2
 
 Type following command :  
 
-> docker build —tag social_media_dashboard:1.0 . (Build app with Dockerfile)
+> docker build —tag elaw-web-v2:1.0 . (Build app with Dockerfile)
 >
-> docker container create --name app-dashboard -p 3000:3000 social_media_dashboard:1.0 (Create docker container after build image)
+> docker container create --name elaw-web -p 3000:3000 elaw-web-v2:1.0 (Create docker container after build image)
 >
-> docker container start app-dashboard (Start docker container)
+> docker container start elaw-web (Start docker container)
 >
-> docker container stop app-dashboard (Stop docker container)
+> docker container stop elaw-web (Stop docker container)
 
 Open link http://localhost:3000 at your browser, if your docker  container is running.
 
 ### Install at local
 Open Terminal, then type command:  
-> git clone https://github.com/nino-t/social-media-dashboard.git
+> git clone https://github.com/nino-t/elaw-web-v2.git
 
 Go to project folder :
-> cd social-media-dashboard
+> cd elaw-web-v2
 
 Type following command :  
 
