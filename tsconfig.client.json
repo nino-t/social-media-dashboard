@@ -1,5 +1,4 @@
 {
-  "include": ["client"],
   "compilerOptions": {
     "module": "es6",
     "target": "es5",
